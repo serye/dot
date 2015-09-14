@@ -64,6 +64,7 @@ Plugin 'xolox/vim-misc'
 
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
+Plugin 'justinmk/vim-syntax-extra'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -97,9 +98,11 @@ let Tlist_Close_On_Select = 0
 nnoremap <F5> :TlistToggle
 nnoremap <F6> :TlistShowPrototype
 
+vnoremap // y/<C-R>"<CR>
+
 set statusline=[%n]\ %<%f\ %([%1*%M%*%R%Y]%)\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-19(\LINE\ [%l/%L]\ COL\ [%02c%03V]%)\ %P
 
-let Tlist_WinWidth = 60 
+let Tlist_WinWidth = 50 
 
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
