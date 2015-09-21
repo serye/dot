@@ -9,14 +9,17 @@ nnoremap <C-H> <C-W><C-H>
 set number
 set tabstop=4
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible              
+filetype off                 
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'bling/vim-airline'
+
+Plugin 'vim-scripts/Conque-GDB'
 
 Plugin 'terryma/vim-multiple-cursors'
 
@@ -28,6 +31,7 @@ Plugin 'wting/rust.vim'
 
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
+Plugin 'vim-scripts/YankRing.vim'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
@@ -49,8 +53,8 @@ Plugin 'Rip-Rip/clang_complete'
 Plugin 'tpope/vim-fugitive'
 
 Plugin 'majutsushi/tagbar'
+Plugin 'kien/ctrlp.vim'
 
-"Plugin 'vim-scripts/taglist.vim'
 
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
@@ -58,16 +62,18 @@ Plugin 'xolox/vim-misc'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
 Plugin 'justinmk/vim-syntax-extra'
+Plugin 'tommcdo/vim-exchange'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call vundle#end()            
+filetype plugin indent on   
 
-colorscheme blink 
 
-"set hidden
+"colorscheme blink 
+"colorscheme solarized 
+colorscheme Monokai 
 
-let g:clang_library_path="/usr/lib/llvm-3.4/lib"
+
+let g:clang_library_path="/usr/lib/llvm-3.6/lib"
 
 imap <C-\> <Plug>snipMateNextOrTrigger
 smap <C-\> <Plug>snipMateNextOrTrigge
@@ -75,10 +81,23 @@ smap <C-\> <Plug>snipMateNextOrTrigge
 
 
 nnoremap <F2> :NERDTree
+nnoremap <F3> :AirlineToggle
 nnoremap <F5> :TagbarToggle
 
 
 vnoremap <C-Y> "+y
 vnoremap // y/<C-R>"<CR>
 
-"set statusline=[%n]\ %<%f\ %([%1*%M%*%R%Y]%)\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-19(\LINE\ [%l/%L]\ COL\ [%02c%03V]%)\ %P
+set t_Co=256
+
+set guifont=Liberation_Mono_for_Powerline:h10 
+
+set guifont=Liberation\ Mono\ for\ Powerline\ 10 
+
+let g:airline_powerline_fonts = 1
+
+let g:Powerline_symbols = 'fancy'
+
+"autocmd BufEnter *.h colorscheme Tomorrow-Night
+
+let g:airline#extensions#tabline#enabled = 1
