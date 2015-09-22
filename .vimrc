@@ -58,6 +58,7 @@ Plugin 'kien/ctrlp.vim'
 
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
+Plugin 'scrooloose/nerdcommenter'
 
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
@@ -99,5 +100,7 @@ let g:airline_powerline_fonts = 1
 let g:Powerline_symbols = 'fancy'
 
 "autocmd BufEnter *.h colorscheme Tomorrow-Night
+"
+au BufNewFile,BufRead *.patch set filetype=patch
 
 let g:airline#extensions#tabline#enabled = 1
