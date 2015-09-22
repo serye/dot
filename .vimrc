@@ -9,7 +9,11 @@ nnoremap <C-H> <C-W><C-H>
 set number
 set tabstop=4
 
-set nocompatible              
+set nocompatible         
+
+
+colorscheme monokai 
+
 filetype off                 
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -62,8 +66,12 @@ Plugin 'scrooloose/nerdcommenter'
 
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
+Plugin 'vim-scripts/highlight.vim'
+
 Plugin 'justinmk/vim-syntax-extra'
 Plugin 'tommcdo/vim-exchange'
+
+
 
 call vundle#end()            
 filetype plugin indent on   
@@ -71,7 +79,6 @@ filetype plugin indent on
 
 "colorscheme blink 
 "colorscheme solarized 
-colorscheme Monokai 
 
 
 let g:clang_library_path="/usr/lib/llvm-3.6/lib"
