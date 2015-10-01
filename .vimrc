@@ -1,9 +1,9 @@
 set completeopt+=preview
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <S-J> <C-W><C-J>
+nnoremap <S-K> <C-W><C-K>
+nnoremap <S-L> <C-W><C-L>
+nnoremap <S-H> <C-W><C-H>
 
 
 set number
@@ -42,7 +42,7 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 
-Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'ekalinin/Dockerfile.im'
 
 Plugin 'derekwyatt/vim-fswitch'
 
@@ -72,7 +72,6 @@ Plugin 'justinmk/vim-syntax-extra'
 Plugin 'tommcdo/vim-exchange'
 
 
-
 call vundle#end()            
 filetype plugin indent on   
 
@@ -93,8 +92,12 @@ nnoremap <F3> :AirlineToggle
 nnoremap <F5> :TagbarToggle
 
 
+
 vnoremap <C-Y> "+y
-vnoremap // y/<C-R>"<CR>
+vnoremap // y/<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
+
+vnoremap <F9> :set hlsearch!  
+nnoremap <F9> :set hlsearch!<ENTER>
 
 set t_Co=256
 
@@ -111,3 +114,32 @@ let g:Powerline_symbols = 'fancy'
 au BufNewFile,BufRead *.patch set filetype=patch
 
 let g:airline#extensions#tabline#enabled = 1
+
+function! GotoFileWithLineNum()
+    " filename under the cursor
+    let file_name = expand('<cfile>')
+    if !strlen(file_name)
+        echo 'NO FILE UNDER CURSOR'
+        return
+    endif
+
+    " look for a line number separated by a :
+    if search('\%#\f*:\zs[0-9]\+')
+        " change the 'iskeyword' option temporarily to pick up just numbers
+        let temp = &iskeyword
+        set iskeyword=48-57
+        let line_number = expand('<cword>')
+        exe 'set iskeyword=' . temp
+    endif
+
+    " edit the file
+    exe 'e '.file_name
+
+    " if there is a line number, go to it
+    if exists('line_number')
+        exe line_number
+    endif
+endfunction
+
+map gf :call GotoFileWithLineNum()<CR>
+map gsf :sp<CR>:call GotoFileWithLineNum()<CR> 
