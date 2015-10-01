@@ -146,3 +146,11 @@ endfunction
 
 map gf :call GotoFileWithLineNum()<CR>
 map gsf :sp<CR>:call GotoFileWithLineNum()<CR> 
+
+
+set foldmethod=syntax
+set foldlevelstart=1
+let xml_syntax_folding=1
+
+au BufRead * normal zR
+
