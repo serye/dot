@@ -93,11 +93,14 @@ nnoremap <F5> :TagbarToggle
 
 
 
-vnoremap <C-Y> "+y
+vnoremap <S-Y> "+y
+vnoremap <S-P> "+p
+nnoremap <S-P> "+p
+
 vnoremap // y/<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
 
 vnoremap <F9> :set hlsearch!  
-nnoremap <F9> :set hlsearch!<ENTER>
+nnoremap <F9> :set hlsearch!<CR>
 
 set t_Co=256
 
