@@ -42,9 +42,11 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 
-Plugin 'ekalinin/Dockerfile.im'
+Plugin 'ekalinin/Dockerfile.vim'
 
 Plugin 'derekwyatt/vim-fswitch'
+
+Plugin 'actionshrimp/vim-xpath'
 
 Plugin 'Valloric/YouCompleteMe'
 
@@ -87,10 +89,13 @@ smap <C-\> <Plug>snipMateNextOrTrigge
 
 
 
-nnoremap <F2> :NERDTree
+nnoremap <F2> :NERDTreeToggle
 nnoremap <F3> :AirlineToggle
 nnoremap <F5> :TagbarToggle
 
+
+vnoremap <S-N> :set nu!<CR>
+nnoremap <S-N> :set nu!<CR>
 
 
 vnoremap <S-Y> "+y
@@ -99,7 +104,7 @@ nnoremap <S-P> "+p
 
 vnoremap // y/<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
 
-vnoremap <F9> :set hlsearch!  
+vnoremap <F9> :set hlsearch!<CR> 
 nnoremap <F9> :set hlsearch!<CR>
 
 set t_Co=256
@@ -153,4 +158,5 @@ set foldlevelstart=1
 let xml_syntax_folding=1
 
 au BufRead * normal zR
+
 
