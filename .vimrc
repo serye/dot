@@ -73,6 +73,7 @@ Plugin 'vim-scripts/highlight.vim'
 Plugin 'justinmk/vim-syntax-extra'
 Plugin 'tommcdo/vim-exchange'
 
+Plugin 'phildawes/racer'
 
 call vundle#end()            
 filetype plugin indent on   
@@ -89,13 +90,13 @@ smap <C-\> <Plug>snipMateNextOrTrigge
 
 
 
-nnoremap <F2> :NERDTreeToggle
-nnoremap <F3> :AirlineToggle
-nnoremap <F5> :TagbarToggle
+nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <F3> :AirlineToggle<CR>
+nnoremap <F5> :TagbarToggle<CR>
 
 
-vnoremap <S-N> :set nu!<CR>
-nnoremap <S-N> :set nu!<CR>
+vnoremap <S-Q> :set nu!<CR>
+nnoremap <S-Q> :set nu!<CR>
 
 
 vnoremap <S-Y> "+y
@@ -159,4 +160,6 @@ let xml_syntax_folding=1
 
 au BufRead * normal zR
 
+au FocusLost * silent! echo 3 
+"  1<C-W>_
 
