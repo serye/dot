@@ -73,8 +73,6 @@ Plugin 'vim-scripts/highlight.vim'
 Plugin 'justinmk/vim-syntax-extra'
 Plugin 'tommcdo/vim-exchange'
 
-Plugin 'phildawes/racer'
-
 call vundle#end()            
 filetype plugin indent on   
 
@@ -162,4 +160,42 @@ au BufRead * normal zR
 
 au FocusLost * silent! echo 3 
 "  1<C-W>_
+
+
+function! GrepFiltered(filter)
+	let grep_cmd= 'silent ! grep '+a:filter+' -rn DTV . > /tmp/qqq &'
+	exe grep_cmd 
+	exe 'set splitbelow'
+	exe 'new'
+	exe 'e /tmp/qqq'
+endfunction
+
+
+function! GrepJava()
+	call GrepFiltered('--include "*.java"')	
+endfunction
+
+
+"function! GrepH
+
+"endfunction
+
+
+"function! GrepC
+
+"endfunction
+
+
+"function! GrepCpp
+
+"endfunction
+
+
+"function! GrepSrc
+
+"endfunction
+
+
+command! -nargs=0 GREPJava call GrepJava()
+
 
