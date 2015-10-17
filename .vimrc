@@ -116,36 +116,35 @@ let g:airline_powerline_fonts = 1
 
 let g:Powerline_symbols = 'fancy'
 
-"autocmd BufEnter *.h colorscheme Tomorrow-Night
-"
+
 au BufNewFile,BufRead *.patch set filetype=patch
 
 let g:airline#extensions#tabline#enabled = 1
 
 function! GotoFileWithLineNum()
-    " filename under the cursor
-    let file_name = expand('<cfile>')
-    if !strlen(file_name)
-        echo 'NO FILE UNDER CURSOR'
-        return
-    endif
+		" filename under the cursor
+		let file_name = expand('<cfile>')
+		if !strlen(file_name)
+				echo 'NO FILE UNDER CURSOR'
+				return
+		endif
 
-    " look for a line number separated by a :
-    if search('\%#\f*:\zs[0-9]\+')
-        " change the 'iskeyword' option temporarily to pick up just numbers
-        let temp = &iskeyword
-        set iskeyword=48-57
-        let line_number = expand('<cword>')
-        exe 'set iskeyword=' . temp
-    endif
+		" look for a line number separated by a :
+		if search('\%#\f*:\zs[0-9]\+')
+				" change the 'iskeyword' option temporarily to pick up just numbers
+				let temp = &iskeyword
+				set iskeyword=48-57
+				let line_number = expand('<cword>')
+				exe 'set iskeyword=' . temp
+		endif
 
-    " edit the file
-    exe 'e '.file_name
+		" edit the file
+		exe 'e '.file_name
 
-    " if there is a line number, go to it
-    if exists('line_number')
-        exe line_number
-    endif
+		" if there is a line number, go to it
+		if exists('line_number')
+				exe line_number
+		endif
 endfunction
 
 map gf :call GotoFileWithLineNum()<CR>
@@ -159,43 +158,90 @@ let xml_syntax_folding=1
 au BufRead * normal zR
 
 au FocusLost * silent! echo 3 
-"  1<C-W>_
 
 
-function! GrepFiltered(filter)
-	let grep_cmd= 'silent ! grep '+a:filter+' -rn DTV . > /tmp/qqq &'
-	exe grep_cmd 
-	exe 'set splitbelow'
-	exe 'new'
-	exe 'e /tmp/qqq'
+
+function! GrepFiltered(...)
+		let grep_result_file = './last_grep_result'
+		let grep_cmd= 'silent ! grep -rn '
+
+		let prev 
+		let cur
+		let case_sensitive = 1;
+
+		for arg in a:000 
+				let prev = cur
+				let cur = arg
+				if cur == '-i'
+						let case_sensitive = 0
+				endif
+				let grep_cmd .= arg.' '
+		endfor
+
+		let grep_cmd .= ' > '.grep_result_file
+
+		exe  grep_cmd 
+		exe 'e '.grep_result_file
+
+		exe 'redraw!'	
+
+		let pattern = 'normal /'
+		if !case_sensitive 
+				let pattern .= '\c'
+		endif
+		let pattern .= prev."\<CR>"
+		exe pattern
+		exe '"<CR>'
+		exe 'set hlsearch'
+		exe 'hi Search ctermbg=57'
+		exe 'silent! gN'
 endfunction
 
 
-function! GrepJava()
-	call GrepFiltered('--include "*.java"')	
+function! GrepJava(...)
+		call call ("GrepFiltered", a:000)
 endfunction
 
 
-"function! GrepH
-
-"endfunction
-
-
-"function! GrepC
-
-"endfunction
+function! GrepH(...)
+		call call ("GrepFiltered", a:000)
+endfunction
 
 
-"function! GrepCpp
-
-"endfunction
-
-
-"function! GrepSrc
-
-"endfunction
+function! GrepC(...)
+		call call ("GrepFiltered", a:000)
+endfunction
 
 
-command! -nargs=0 GREPJava call GrepJava()
+function! GrepCpp(...)
+		call call ("GrepFiltered", a:000)
+endfunction
 
 
+function! GrepSrc(...)
+		call call ("GrepFiltered", a:000)
+endfunction
+
+
+function! GrepRust(...)
+		call call ("GrepFiltered", a:000)
+endfunction
+
+
+command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
+command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
+command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp} ', <f-args>)
+command! -nargs=+ GREPSrc call GrepSrc('--include=*.{java, c, cpp, rs, h, hh, hpp} ', <f-args>)
+command! -nargs=+ GREPRust call GrepRust('--include=*.rs ', <f-args>)
+command! -nargs=+ GREPJava call GrepJava('--include=*.java ', <f-args>)
+
+
+function! Wr(...)
+		if a:0 == 0
+				exe 'w %' 
+		else
+				exe 'w '.a:1
+		endif
+endfunction
+
+command! -nargs=? W call Wr(<f-args>)
