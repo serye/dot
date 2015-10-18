@@ -162,7 +162,7 @@ au FocusLost * silent! echo 3
 
 
 function! GrepFiltered(...)
-		let grep_result_file = './last_grep_result'
+		let grep_result_file = '/tmp/last_grep_result'
 		let grep_cmd= 'silent ! grep -rn '
 
 		let prev 
