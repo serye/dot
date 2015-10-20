@@ -167,7 +167,7 @@ function! GrepFiltered(...)
 
 		let prev 
 		let cur
-		let case_sensitive = 1;
+		let case_sensitive = 1
 
 		for arg in a:000 
 				let prev = cur
@@ -186,15 +186,14 @@ function! GrepFiltered(...)
 		exe 'redraw!'	
 
 		let pattern = 'normal /'
-		if !case_sensitive 
+		if ! case_sensitive 
 				let pattern .= '\c'
 		endif
-		let pattern .= prev."\<CR>"
+		let pattern .= prev 
 		exe pattern
 		exe '"<CR>'
 		exe 'set hlsearch'
 		exe 'hi Search ctermbg=57'
-		exe 'silent! gN'
 endfunction
 
 
