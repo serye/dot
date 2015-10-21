@@ -227,6 +227,11 @@ function! GrepRust(...)
 endfunction
 
 
+function! Grep(...)
+		call call (a:000)
+endfunction
+
+command! -nargs=+ GREP call Grep(<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
 command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
 command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp} ', <f-args>)
