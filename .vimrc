@@ -9,6 +9,9 @@ nnoremap <S-H> <C-W><C-H>
 set number
 set tabstop=4
 
+set shiftwidth=4
+set softtabstop=4
+
 set nocompatible         
 
 
@@ -108,6 +111,8 @@ nnoremap <F9> :set hlsearch!<CR>
 
 set t_Co=256
 
+set tabstop=4
+
 set guifont=Liberation_Mono_for_Powerline:h10 
 
 set guifont=Liberation\ Mono\ for\ Powerline\ 10 
@@ -198,6 +203,11 @@ function! GrepFiltered(...)
 endfunction
 
 
+
+function! GrepPlain(...)
+		call call ("GrepFiltered", a:000)
+endfunction
+
 function! GrepJava(...)
 		call call ("GrepFiltered", a:000)
 endfunction
@@ -228,6 +238,7 @@ function! GrepRust(...)
 endfunction
 
 
+command! -nargs=+ GREP call GrepPlain(<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
 command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
 command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp} ', <f-args>)
