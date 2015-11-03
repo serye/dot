@@ -168,11 +168,12 @@ au FocusLost * silent! echo 3
 
 function! GrepFiltered(...)
 		let grep_result_file = '/tmp/last_grep_result'
+		exe 'silent ! > '.grep_result_file
 		let grep_cmd= 'silent ! grep -rn '
 
 		let prev 
 		let cur
-		let case_sensitive = 1;
+		let case_sensitive = 1
 
 		for arg in a:000 
 				let prev = cur
@@ -184,14 +185,23 @@ function! GrepFiltered(...)
 		endfor
 
 		let grep_cmd .= ' > '.grep_result_file
+		exe grep_cmd
 
-		exe  grep_cmd 
+
+		exe 'silent ! if [[ ! -s ./t ]] ; then rm -f '.grep_result_file.';fi;'
+
+		if filereadable(grep_result_file)
+			exe 'redraw!'
+			echom "GREP: NOTHING FOUND"
+			return
+		endif
+
+
 		exe 'e '.grep_result_file
-
 		exe 'redraw!'	
 
 		let pattern = 'normal /'
-		if !case_sensitive 
+		if !case_sensitive
 				let pattern .= '\c'
 		endif
 		let pattern .= prev."\<CR>"
