@@ -168,7 +168,8 @@ au FocusLost * silent! echo 3
 
 function! GrepFiltered(...)
 		let grep_result_file = '/tmp/last_grep_result'
-		exe 'silent ! > '.grep_result_file
+		exe 'silent ! rm -f '.grep_result_file
+		
 		let grep_cmd= 'silent ! grep -rn '
 
 		let prev 
@@ -188,9 +189,9 @@ function! GrepFiltered(...)
 		exe grep_cmd
 
 
-		exe 'silent ! if [[ ! -s ./t ]] ; then rm -f '.grep_result_file.';fi;'
+		call system('if [[ ! -s '.grep_result_file.' ]] ; then rm -f '.grep_result_file.' ;fi')
 
-		if filereadable(grep_result_file)
+		if !filereadable(grep_result_file)
 			exe 'redraw!'
 			echom "GREP: NOTHING FOUND"
 			return
