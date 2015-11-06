@@ -248,7 +248,7 @@ endfunction
 
 command! -nargs=+ GREP call GrepPlain(<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
-command! -nargs=+ GREPC call GrepSh('--include=*.sh ', <f-args>)
+command! -nargs=+ GREPSh call GrepSh('--include=*.sh ', <f-args>)
 command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
 command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp} ', <f-args>)
 command! -nargs=+ GREPSrc call GrepSrc('--include=*.{java, c, cpp, rs, h, hh, hpp} ', <f-args>)
