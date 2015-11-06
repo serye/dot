@@ -105,6 +105,7 @@ vnoremap <S-P> "+p
 nnoremap <S-P> "+p
 
 vnoremap // y/<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
+vnoremap //i y/\c<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
 
 vnoremap <F9> :set hlsearch!<CR> 
 nnoremap <F9> :set hlsearch!<CR>
@@ -167,9 +168,12 @@ au FocusLost * silent! echo 3
 
 
 function! GrepFiltered(...)
-		let grep_result_file = '/tmp/last_grep_result'
-		exe 'silent ! rm -f '.grep_result_file
-		
+
+		let grep_result_file = "/tmp/vim_grep_".system('echo $RANDOM')
+
+		exe 'silent ! touch '.grep_result_file
+		exe 'silent ! chmod 777 '.grep_result_file
+
 		let grep_cmd= 'silent ! grep -rn '
 
 		let prev 
@@ -185,18 +189,8 @@ function! GrepFiltered(...)
 				let grep_cmd .= arg.' '
 		endfor
 
-		let grep_cmd .= ' > '.grep_result_file
+		let grep_cmd .= ' | tee -a '.grep_result_file
 		exe grep_cmd
-
-
-		call system('if [[ ! -s '.grep_result_file.' ]] ; then rm -f '.grep_result_file.' ;fi')
-
-		if !filereadable(grep_result_file)
-			exe 'redraw!'
-			echom "GREP: NOTHING FOUND"
-			return
-		endif
-
 
 		exe 'e '.grep_result_file
 		exe 'redraw!'	
@@ -238,6 +232,9 @@ function! GrepCpp(...)
 		call call ("GrepFiltered", a:000)
 endfunction
 
+function! GrepSh(...)
+		call call ("GrepFiltered", a:000)
+endfunction
 
 function! GrepSrc(...)
 		call call ("GrepFiltered", a:000)
@@ -251,6 +248,7 @@ endfunction
 
 command! -nargs=+ GREP call GrepPlain(<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
+command! -nargs=+ GREPC call GrepSh('--include=*.sh ', <f-args>)
 command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
 command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp} ', <f-args>)
 command! -nargs=+ GREPSrc call GrepSrc('--include=*.{java, c, cpp, rs, h, hh, hpp} ', <f-args>)
