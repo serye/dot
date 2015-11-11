@@ -49,8 +49,6 @@ Plugin 'ekalinin/Dockerfile.vim'
 
 Plugin 'derekwyatt/vim-fswitch'
 
-Plugin 'actionshrimp/vim-xpath'
-
 Plugin 'Valloric/YouCompleteMe'
 
 Plugin 'scrooloose/syntastic'
@@ -101,8 +99,8 @@ nnoremap <S-Q> :set nu!<CR>
 
 
 vnoremap <S-Y> "+y
-vnoremap <S-P> "+p
-nnoremap <S-P> "+p
+vnoremap <S-O> "+p
+nnoremap <S-O> "+p
 
 vnoremap // y/<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
 vnoremap //i y/\c<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
