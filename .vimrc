@@ -197,6 +197,8 @@ function! GrepFiltered(...)
 	if !case_sensitive
 		let pattern .= '\c'
 	endif
+	let prev = substitute(prev,'^"' , '', "")
+	let prev = substitute(prev,'"$' , '', "")
 	let prev = EscapeSymbols(prev)
 	let pattern .= prev."\<CR>"
 	exe pattern
@@ -210,13 +212,40 @@ endfunction
 
 function! EscapeSymbols(...)
 	let str = a:1
-	let str = substitute(str,'^"' , '', "")
-	let str = substitute(str,'"$' , '', "")
-	for esc in ['\/','\^','\$','\.','\*','\~','\[...]','\[^...]','&']
+	for esc in ["'",'\/','\^','\$','\.','\*','\~','\[...]','\[^...]','&']
 		let str = substitute(str, esc, '\\'.esc, "")
 	endfor
 	return str
 endfunction
+
+
+
+function! Wrand(...)
+	exe 'w /tmp/vim_tmp_'.system('echo $RANDOM')
+endfunction
+
+function! Write(...)
+	if a:0 == 0
+		exe 'w %'
+	else
+		exe 'w '.a:1
+	endif
+endfunction
+
+
+function! Qu(...)
+	exe 'q!'
+endfunction
+
+command! -nargs=? W call Write(<f-args>)
+command! -nargs=? WR call Wrand(<f-args>)
+command! -nargs=? Q call Qu(<f-args>)
+
+
+
+
+
+
 
 
 
@@ -267,24 +296,3 @@ command! -nargs=+ GREPRust call GrepRust('--include=*.rs ', <f-args>)
 command! -nargs=+ GREPJava call GrepJava('--include=*.java ', <f-args>)
 
 
-
-function! Wrand(...)
-	exe 'w /tmp/vim_tmp_'.system('echo $RANDOM')
-endfunction
-
-function! Write(...)
-	if a:0 == 0
-		exe 'w %'
-	else
-		exe 'w '.a:1
-	endif
-endfunction
-
-
-function! Qu(...)
-	exe 'q!'
-endfunction
-
-command! -nargs=? W call Write(<f-args>)
-command! -nargs=? WR call Wrand(<f-args>)
-command! -nargs=? Q call Qu(<f-args>)
