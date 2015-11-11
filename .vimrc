@@ -12,12 +12,12 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-set nocompatible         
+set nocompatible
 
 
-colorscheme monokai 
+colorscheme monokai
 
-filetype off                 
+filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -74,12 +74,12 @@ Plugin 'vim-scripts/highlight.vim'
 Plugin 'justinmk/vim-syntax-extra'
 Plugin 'tommcdo/vim-exchange'
 
-call vundle#end()            
-filetype plugin indent on   
+call vundle#end()
+filetype plugin indent on
 
 
-"colorscheme blink 
-"colorscheme solarized 
+"colorscheme blink
+"colorscheme solarized
 
 
 let g:clang_library_path="/usr/lib/llvm-3.6/lib"
@@ -112,9 +112,9 @@ set t_Co=256
 
 set tabstop=4
 
-set guifont=Liberation_Mono_for_Powerline:h10 
+set guifont=Liberation_Mono_for_Powerline:h10
 
-set guifont=Liberation\ Mono\ for\ Powerline\ 10 
+set guifont=Liberation\ Mono\ for\ Powerline\ 10
 
 let g:airline_powerline_fonts = 1
 
@@ -126,33 +126,33 @@ au BufNewFile,BufRead *.patch set filetype=patch
 let g:airline#extensions#tabline#enabled = 1
 
 function! GotoFileWithLineNum()
-		" filename under the cursor
-		let file_name = expand('<cfile>')
-		if !strlen(file_name)
-				echo 'NO FILE UNDER CURSOR'
-				return
-		endif
+	" filename under the cursor
+	let file_name = expand('<cfile>')
+	if !strlen(file_name)
+		echo 'NO FILE UNDER CURSOR'
+		return
+	endif
 
-		" look for a line number separated by a :
-		if search('\%#\f*:\zs[0-9]\+')
-				" change the 'iskeyword' option temporarily to pick up just numbers
-				let temp = &iskeyword
-				set iskeyword=48-57
-				let line_number = expand('<cword>')
-				exe 'set iskeyword=' . temp
-		endif
+	" look for a line number separated by a :
+	if search('\%#\f*:\zs[0-9]\+')
+		" change the 'iskeyword' option temporarily to pick up just numbers
+		let temp = &iskeyword
+		set iskeyword=48-57
+		let line_number = expand('<cword>')
+		exe 'set iskeyword=' . temp
+	endif
 
-		" edit the file
-		exe 'e '.file_name
+	" edit the file
+	exe 'e '.file_name
 
-		" if there is a line number, go to it
-		if exists('line_number')
-				exe line_number
-		endif
+	" if there is a line number, go to it
+	if exists('line_number')
+		exe line_number
+	endif
 endfunction
 
 map gf :call GotoFileWithLineNum()<CR>
-map gsf :sp<CR>:call GotoFileWithLineNum()<CR> 
+map gsf :sp<CR>:call GotoFileWithLineNum()<CR>
 
 
 set foldmethod=syntax
@@ -161,88 +161,101 @@ let xml_syntax_folding=1
 
 au BufRead * normal zR
 
-au FocusLost * silent! echo 3 
+au FocusLost * silent! echo 3
 
 
 
 function! GrepFiltered(...)
 
-		let grep_result_file = "/tmp/vim_grep_".system('echo $RANDOM')
+	let grep_result_file = "/tmp/vim_grep_".system('echo $RANDOM')
 
-		exe 'silent ! touch '.grep_result_file
-		exe 'silent ! chmod 777 '.grep_result_file
+	exe 'silent ! touch '.grep_result_file
+	exe 'silent ! chmod 777 '.grep_result_file
 
-		let grep_cmd= 'silent ! grep -rn '
+	let grep_cmd= 'silent ! grep -rn '
 
-		let prev 
-		let cur
-		let case_sensitive = 1
+	let prev
+	let cur
+	let case_sensitive = 1
 
-		for arg in a:000 
-				let prev = cur
-				let cur = arg
-				if cur == '-i'
-						let case_sensitive = 0
-				endif
-				let grep_cmd .= arg.' '
-		endfor
-
-		let grep_cmd .= ' | tee -a '.grep_result_file
-		exe grep_cmd
-
-		exe 'e '.grep_result_file
-		exe 'redraw!'	
-
-		let pattern = 'normal /'
-		if !case_sensitive
-				let pattern .= '\c'
+	for arg in a:000
+		let prev = cur
+		let cur = arg
+		if cur == '-i'
+			let case_sensitive = 0
 		endif
-		let pattern .= prev."\<CR>"
-		exe pattern
-		exe '"<CR>'
-		exe 'set hlsearch'
-		exe 'hi Search ctermbg=57'
-		exe 'silent! gN'
+		let grep_cmd .= arg.' '
+	endfor
+
+	let grep_cmd .= ' | tee -a '.grep_result_file
+	exe grep_cmd
+
+	exe 'e '.grep_result_file
+	exe 'redraw!'
+
+	let pattern = 'normal /'
+	if !case_sensitive
+		let pattern .= '\c'
+	endif
+	let prev = EscapeSymbols(prev)
+	let pattern .= prev."\<CR>"
+	exe pattern
+	exe '"<CR>'
+	exe 'set hlsearch'
+	exe 'hi Search ctermbg=57'
+	exe 'silent! gN'
 endfunction
+
+
+
+function! EscapeSymbols(...)
+	let str = a:1
+	let str = substitute(str,'^"' , '', "")
+	let str = substitute(str,'"$' , '', "")
+	for esc in ['\/','\^','\$','\.','\*','\~','\[...]','\[^...]','&']
+		let str = substitute(str, esc, '\\'.esc, "")
+	endfor
+	return str
+endfunction
+
 
 
 
 function! GrepPlain(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 function! GrepJava(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 
 function! GrepH(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 
 function! GrepC(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 
 function! GrepCpp(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 function! GrepSh(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 function! GrepSrc(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
 
 
 function! GrepRust(...)
-		call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", a:000)
 endfunction
-
 
 command! -nargs=+ GREP call GrepPlain(<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
@@ -260,11 +273,11 @@ function! Wrand(...)
 endfunction
 
 function! Write(...)
-		if a:0 == 0
-				exe 'w %' 
-		else
-				exe 'w '.a:1
-		endif
+	if a:0 == 0
+		exe 'w %'
+	else
+		exe 'w '.a:1
+	endif
 endfunction
 
 
