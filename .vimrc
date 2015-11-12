@@ -102,8 +102,16 @@ vnoremap <S-Y> "+y
 vnoremap <S-O> "+p
 nnoremap <S-O> "+p
 
-vnoremap // y/<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
-vnoremap //i y/\c<C-R>"<CR>:set hlsearch<ENTER>:hi Search ctermbg=57<ENTER>
+vmap // :call VisualSearch()<CR>:set hlsearch<CR>:hi Search ctermbg=57<CR>
+
+function! VisualSearch()
+	normal gv"xy
+	let var = ''.@x
+	let var = EscapeSymbols(var)
+    exe 'normal /'.var
+endfunction
+
+
 
 vnoremap <F9> :set hlsearch!<CR> 
 nnoremap <F9> :set hlsearch!<CR>
@@ -212,7 +220,7 @@ endfunction
 
 function! EscapeSymbols(...)
 	let str = a:1
-	for esc in ["'",'\/','\^','\$','\.','\*','\~','\[...]','\[^...]','&']
+	for esc in ['\/','\^','\$','\.','\*','\~','\[...]','\[^...]','&']
 		let str = substitute(str, esc, '\\'.esc, "g")
 	endfor
 	return str
