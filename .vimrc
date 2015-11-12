@@ -205,7 +205,7 @@ function! GrepFiltered(...)
 	exe '"<CR>'
 	exe 'set hlsearch'
 	exe 'hi Search ctermbg=57'
-	exe 'silent! gN'
+	exe 'normal 0'
 endfunction
 
 
@@ -213,7 +213,7 @@ endfunction
 function! EscapeSymbols(...)
 	let str = a:1
 	for esc in ["'",'\/','\^','\$','\.','\*','\~','\[...]','\[^...]','&']
-		let str = substitute(str, esc, '\\'.esc, "")
+		let str = substitute(str, esc, '\\'.esc, "g")
 	endfor
 	return str
 endfunction
