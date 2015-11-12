@@ -1,0 +1,27 @@
+[global_config]
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, Logger, LaunchpadBugURLHandler
+  title_transmit_bg_color = "#0b6200"
+[keybindings]
+  go_up = <Alt>k
+  broadcast_group = grave
+  broadcast_all = <Super>a
+  go_down = <Alt>j
+  go_right = <Alt>l
+  broadcast_off = <Super>o
+  go_left = <Alt>h
+[profiles]
+  [[default]]
+    use_system_font = False
+    font = Monospace Bold 10
+    background_image = None
+    cursor_color = "#ff0000"
+    foreground_color = "#00ff00"
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]
