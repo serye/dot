@@ -104,12 +104,13 @@ vnoremap <S-Y> "+y
 vnoremap <S-O> "+p
 nnoremap <S-O> "+p
 
-vmap // :call VisualSearch()<CR>:set hlsearch<CR>:hi Search ctermbg=57<CR>
+vmap // :call VisualSearch()<CR>:hi Search ctermbg=57<CR>:set hlsearch<CR>
 
 function! VisualSearch()
 	normal gv"xy
 	let var = ''.@x
 	let var = EscapeSymbols(var)
+	let @/ = var
     exe 'normal /'.var
 endfunction
 
