@@ -97,6 +97,8 @@ nnoremap <F5> :TagbarToggle<CR>
 vnoremap <S-Q> :set nu!<CR>
 nnoremap <S-Q> :set nu!<CR>
 
+vnoremap qg :call QuickGrep()<CR>
+
 
 vnoremap <S-Y> "+y
 vnoremap <S-O> "+p
@@ -112,8 +114,15 @@ function! VisualSearch()
 endfunction
 
 
+function! QuickGrep()
+	normal gv"xy
+	let var = ''.@x
+	let var = EscapeSymbols(var)
+    call call("GrepPlain", [var, '.'])
+endfunction
 
-vnoremap <F9> :set hlsearch!<CR> 
+
+vnoremap <F9> :set glsearch!<CR>
 nnoremap <F9> :set hlsearch!<CR>
 
 set t_Co=256
