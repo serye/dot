@@ -106,6 +106,10 @@ nnoremap <S-O> "+p
 
 vmap // :call VisualSearch()<CR>:hi Search ctermbg=57<CR>:set hlsearch<CR>
 
+map <A-right> :bn<CR>
+map <A-left> :bp<CR>
+
+
 function! VisualSearch()
 	normal gv"xy
 	let var = ''.@x
@@ -119,6 +123,7 @@ function! QuickGrep()
 	normal gv"xy
 	let var = ''.@x
 	let var = EscapeSymbols(var)
+	let var = '"'.var.'"'
     call call("GrepPlain", [var, '.'])
 endfunction
 
