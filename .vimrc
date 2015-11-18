@@ -124,7 +124,7 @@ function! QuickGrep()
 	let var = ''.@x
 	let var = EscapeSymbols(var)
 	let var = '"'.var.'"'
-    call call("GrepPlain", [var, '.'])
+    call call("GrepPlain", ['-I',var, '.'])
 endfunction
 
 
@@ -223,6 +223,7 @@ function! GrepFiltered(...)
 	let prev = substitute(prev,'^"' , '', "")
 	let prev = substitute(prev,'"$' , '', "")
 	let prev = EscapeSymbols(prev)
+	let prev = substitute(prev, '\\.\\\*', '.*', "g")
 	let pattern .= prev."\<CR>"
 	exe pattern
 	exe '"<CR>'
@@ -309,7 +310,7 @@ function! GrepRust(...)
 	call call ("GrepFiltered", a:000)
 endfunction
 
-command! -nargs=+ GREP call GrepPlain(<f-args>)
+command! -nargs=+ GREP call GrepPlain('--exclude-dir=.hg',<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
 command! -nargs=+ GREPSh call GrepSh('--include=*.sh ', <f-args>)
 command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
