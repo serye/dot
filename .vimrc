@@ -286,7 +286,7 @@ function! GrepGrep(...)
 	let params = keys(dict)
 	let params = a:000 + params
 	let params = params + " -d skip "
-	call call ("GrepFiltered", a:000)
+	call call ("GrepFiltered", params)
 endfunction
 
 
