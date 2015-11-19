@@ -283,9 +283,10 @@ function! GrepGrep(...)
 		let f = substitute(l,':.*$','',"")
 		let dict[f] = ''
 	endfor
-	let params = keys(dict)
-	let params = a:000 + params
-	let params = params + " -d skip "
+	let params = [' -d skip ']
+	let params = params + a:000
+	let files  = join(keys(dict),' ')
+	let params = params + [files]
 	call call ("GrepFiltered", params)
 endfunction
 
