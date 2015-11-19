@@ -191,14 +191,14 @@ au FocusLost * silent! echo 3
 
 function! GrepFiltered(...)
 
-	let grep_result_file = "/tmp/vim_searchi_".system('echo $RANDOM')
+	let grep_result_file = "/tmp/vim_search_".system('echo $RANDOM')
 	let grep_result_file = substitute(grep_result_file,'.\{1}$' , '', "")
 	let grep_result_file .= ".grep"
 
 	exe 'silent ! touch '.grep_result_file
 	exe 'silent ! chmod 777 '.grep_result_file
 
-	let grep_cmd= 'silent ! grep -rn '
+	let grep_cmd= 'silent ! grep -r -n '
 
 	let prev
 	let cur
@@ -267,6 +267,7 @@ endfunction
 command! -nargs=? W call Write(<f-args>)
 command! -nargs=? WR call Wrand(<f-args>)
 command! -nargs=? Q call Qu(<f-args>)
+command! -nargs=? GG call GrepGrep(<f-args>)
 
 
 
@@ -275,6 +276,18 @@ command! -nargs=? Q call Qu(<f-args>)
 
 
 
+function! GrepGrep(...)
+	let lines = split(join(getline(1,'$'),"\n"),"\n")
+	let dict = {}
+	for l in lines
+		let f = substitute(l,':.*$','',"")
+		let dict[f] = ''
+	endfor
+	let params = keys(dict)
+	let params = a:000 + params
+	let params = params + " -d skip "
+	call call ("GrepFiltered", a:000)
+endfunction
 
 
 function! GrepPlain(...)
