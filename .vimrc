@@ -145,6 +145,7 @@ let g:Powerline_symbols = 'fancy'
 
 
 au BufNewFile,BufRead *.patch set filetype=patch
+au BufNewFile,BufRead *.grep set filetype=grep
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -190,7 +191,9 @@ au FocusLost * silent! echo 3
 
 function! GrepFiltered(...)
 
-	let grep_result_file = "/tmp/vim_grep_".system('echo $RANDOM')
+	let grep_result_file = "/tmp/vim_searchi_".system('echo $RANDOM')
+	let grep_result_file = substitute(grep_result_file,'.\{1}$' , '', "")
+	let grep_result_file .= ".grep"
 
 	exe 'silent ! touch '.grep_result_file
 	exe 'silent ! chmod 777 '.grep_result_file
