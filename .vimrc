@@ -322,11 +322,24 @@ function! GrepSrc(...)
 	call call ("GrepFiltered", a:000)
 endfunction
 
-
 function! GrepRust(...)
 	call call ("GrepFiltered", a:000)
 endfunction
 
+function! GrepBuffer(...)
+	let search = a:1
+	let search = substitute(search,'^"' , '', "")
+	let search = substitute(search,'"$' , '', "")
+	let search = EscapeSymbols(search)
+	exe 'normal! qaq'
+	exe 'g/'.search.'/y A'
+	exe 'e /tmp/vim_tmp_'.system('echo $RANDOM')
+	normal! "ap2dk
+	exe 'w'
+
+endfunction
+
+command! -nargs=+ GREPBuffer call GrepBuffer(<f-args>)
 command! -nargs=+ GREP call GrepPlain('--exclude-dir=.hg',<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
 command! -nargs=+ GREPSh call GrepSh('--include=*.sh ', <f-args>)
