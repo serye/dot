@@ -1,5 +1,55 @@
 # dot
 
+this repo contains some files with syntax and colortheme
+
+folder syntax/ should be placed in ~/.vim/
+for example, files with .patch extension would be opened with fancy coloring :)
+
+you also can enable coloring in viw with command
+	:set syntax=patch
+
+folder colors/ should also be copied to ~/.vim/ 
+I like monokai theme, make it look like sublime :)
+
+
+<C-Y> - is for ctrl+y
+<S-E> - is for shift+e
+
+description for installation of each plugin can be found at https://github.com/%PLUGIN_NAME%
+for example Vundle - plugin manager 
+https://github.com/VundleVim/Vundle.vim
+
+
+it's pretty comfortable to have folowing alias in your .bashrc
+	
+	alias vout=' vi - +WR'
+
++WR - is a function from .vimrc, which writes buffer to random file in /tmp folder
+
+very usefull when you need to quickly find some file/files and open them for reading logs, investigation, etc.
+
+find . -name pattern | vout
+
+when vim is opened with results of find - just press gf (go to file :) )
+and you open file under cursor, to or move back <C-O>, to open other file 
+
+:W is a duplicate of :w
+I've added thit one just because when I want to save to current file, and paste ":w" I need to press Shift to be able to paste semicolon, and when I'm pasting "w" my finger very frequently is still on Shift and it becomes ":W", I have error output, and need to retype. that happened a lot, and was verry annoying :) 
+
+
+
+
+GREP{C,Java,Cpp,H,Src} and args the same to grep - grep by only files with extension - ver helpful when greping large amount of files (whole repo, for example)
+in near future I'll make it parallel, to become even more faster :) 
+
+
+to highlgiht search pattern - /<UP><ENTER> 
+
+highlgiht sometimes is buggy, and you can disable it with <F9> (that's just my shortcut you are free to remap one :) )
+
+GG and args the same to grep - grep files where previous grep occurrences were found
+
+
 <S-J> - move to split down 
 <S-K> - move to split up
 <S-L> - move to split right
@@ -9,28 +59,35 @@
 <C-W>> - resize split one char right
 15<C-W>> - resize split 15 chars right
 <C-W> - new split
+some times it resizes in opposite way, in such case just change "<" for ">" for example
+
 
 multiple cursors:
 select text paste <C-N> as many times as many item you wanna select paste 'v' to exit visual mode, past 'i' for input
 
-<S-Q> - hide line nums
-<S-Y> - copy selection to clipboard
+<S-Q> - hide line nums (my shortcut) 
+<S-Y> - copy selection to clipboard (my shortcut)
 <S-V> - select whole line
 
-ve - select to word end
-vb - select to word begining
-
+ve - Visual select to word End
+vb - Visual select to word Begining
+viw - Visual select when cursor is Inside the Word
 
 <C-O> - go to prev viewed location
 <C-I> - go to next viewed location
 
 / - search
 /\c - case insensitive search
-// - search and highlight selection
+
+select text in visual mode and type
+// - to search for selection in current buffer and highlight all occurrences 
 
 
 \cc - comment lines selected in visual mode
 \cu - uncomment selection
+
+
+% is for every line
 
 :%s///n - number of search matches
 
@@ -49,15 +106,16 @@ vb - select to word begining
 <F5> - outline
 <F9> - disable/enable highlight
 
+Alt+arrows - swithc between tabs
 
 the next may not work if you are not in directory with file:
 gf - go to file under cursor 
 gsf - go to file under cursor in new split
-to change dir just :cd
+to change dir just :cd dir/
 
-bn - next buffer
-bp - previous buffer
-bd - delete (close) buffer
+:bn - next buffer
+:bp - previous buffer
+:bd - delete (close) buffer
 
 
 ysiw" - create "" around the word under cursor
@@ -67,8 +125,6 @@ ds" - change "foo" to foo
 yss" - "" around whole the line 
 
 
-GREP{C,Java,Cpp,H,Src} and args the same to grep - grep by only files with extension 
-to highlgiht search pattern - /<UP><ENTER> 
 
 
 
