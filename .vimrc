@@ -39,7 +39,6 @@ Plugin 'wting/rust.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'vim-scripts/YankRing.vim'
-
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
@@ -108,7 +107,7 @@ vmap // :call VisualSearch()<CR>:hi Search ctermbg=57<CR>:set hlsearch<CR>
 
 map <A-right> :bn<CR>
 map <A-left> :bp<CR>
-
+map <S-Z> :g/.\n\n\@!/norm o<CR>
 
 function! VisualSearch()
 	normal gv"xy
@@ -318,34 +317,34 @@ function! GrepSh(...)
 	call call ("GrepFiltered", a:000)
 endfunction
 
-function! GrepSrc(...)
-	call call ("GrepFiltered", a:000)
-endfunction
-
 function! GrepRust(...)
 	call call ("GrepFiltered", a:000)
 endfunction
 
-function! GrepBuffer(...)
+
+"TODO keep current syntax in new buffer
+function! SearchSplit(...)
 	let search = a:1
 	let search = substitute(search,'^"' , '', "")
 	let search = substitute(search,'"$' , '', "")
 	let search = EscapeSymbols(search)
 	exe 'normal! qaq'
 	exe 'g/'.search.'/y A'
-	exe 'e /tmp/vim_tmp_'.system('echo $RANDOM')
+	let syntax = exe 'setlocal syntax?'
+	Wrand()
 	normal! "ap2dk
 	exe 'w'
-
+	echom syntax
 endfunction
 
-command! -nargs=+ GREPBuffer call GrepBuffer(<f-args>)
+
+"TODO parallelize it
+command! -nargs=+ SS call SearchSplit(<f-args>)
 command! -nargs=+ GREP call GrepPlain('--exclude-dir=.hg',<f-args>)
 command! -nargs=+ GREPC call GrepC('--include=*.c ', <f-args>)
 command! -nargs=+ GREPSh call GrepSh('--include=*.sh ', <f-args>)
 command! -nargs=+ GREPCpp call GrepCpp('--include=*.cpp ', <f-args>)
-command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp} ', <f-args>)
-command! -nargs=+ GREPSrc call GrepSrc('--include=*.{java, c, cpp, rs, h, hh, hpp} ', <f-args>)
+command! -nargs=+ GREPH call GrepH('--include=*.{h,hh,hpp}* ', <f-args>)
 command! -nargs=+ GREPRust call GrepRust('--include=*.rs ', <f-args>)
 command! -nargs=+ GREPJava call GrepJava('--include=*.java ', <f-args>)
 
